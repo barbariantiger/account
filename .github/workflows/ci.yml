@@ -28,5 +28,6 @@ jobs:
         with:
           distribution: corretto
           java-version: 17
-      - run: ./gradlew build --no-deamon          
+          cache: gradle
+      - run: ./gradlew build --no-daemon
       

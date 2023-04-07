@@ -25,10 +25,6 @@ class MuBankApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    void contextLoads() {
-    }
-
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
@@ -38,7 +34,7 @@ class MuBankApplicationTests {
     }
 
     @Test
-    public void givenCorrectInputWhenCreateAccountThenCreated() throws Exception {
+    void givenCorrectInputWhenCreateAccountThenCreated() throws Exception {
         mockMvc.perform(post
                         ("/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -48,7 +44,7 @@ class MuBankApplicationTests {
     }
 
     @Test
-    public void givenIncorrectInputWhenCreateAccountThenBadRequest() throws Exception {
+    void givenIncorrectInputWhenCreateAccountThenBadRequest() throws Exception {
         mockMvc.perform(post("/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(new AccountDTO(null, null))))

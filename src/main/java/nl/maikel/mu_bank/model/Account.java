@@ -8,12 +8,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import static nl.maikel.mu_bank.constants.AccountConstants.*;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "ACCOUNT")
+@Entity(name = ACCOUNT_TABLE)
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,7 +24,12 @@ public class Account {
     private String id;
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonIgnoreProperties("accounts")
+    @JsonIgnoreProperties(ACCOUNTS)
     private Customer customer;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = TRANSACTION_ID, nullable = false)
+    @ToString.Exclude
+    @JsonIgnoreProperties(ACCOUNT)
+    private List<Transaction> transactions;
     private BigDecimal balance;
 }

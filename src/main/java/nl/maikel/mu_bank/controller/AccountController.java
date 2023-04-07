@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static nl.maikel.mu_bank.constants.AccountConstants.ACCOUNTS_ENDPOINT;
+
 @RestController
 public class AccountController {
 
@@ -20,8 +22,8 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping(value = "/accounts", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Account> createAccount(@RequestBody @Valid final AccountDTO accountDTO) {;
+    @PostMapping(value = ACCOUNTS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Account> createAccount(@RequestBody @Valid final AccountDTO accountDTO) {
        return new ResponseEntity<>(accountService.createAccount(accountDTO), HttpStatus.CREATED);
     }
 }

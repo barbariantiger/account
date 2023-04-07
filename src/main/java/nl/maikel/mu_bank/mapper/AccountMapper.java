@@ -6,14 +6,16 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+import static nl.maikel.mu_bank.constants.AccountConstants.*;
+
+@Mapper(componentModel = MAPPER_COMPONENT_MODEL)
 public interface AccountMapper {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
+
     @Mappings(value = {
-            @Mapping(target = "id", ignore = true),
-            @Mapping(source = "initialCredit", target = "balance", defaultValue = "0.00"),
-            @Mapping(source = "customerId", target = "customer.id")
+            @Mapping(source = INITIAL_CREDIT, target = BALANCE, defaultValue = DEFAULT_BALANCE),
+            @Mapping(source = CUSTOMER_ID, target = CUSTOMER_DOT_ID)
     })
     Account dtoToAccount(AccountDTO accountDTO);
 }

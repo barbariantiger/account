@@ -1,5 +1,6 @@
 package nl.maikel.mu_bank.service;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.maikel.mu_bank.event.EventType;
 import nl.maikel.mu_bank.event.TransactionEvent;
 import nl.maikel.mu_bank.event.TransactionType;
@@ -13,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import static nl.maikel.mu_bank.constants.AccountConstants.TRANSACTION_BINDING_NAME;
+import static nl.maikel.mu_bank.constants.AccountConstants.TRANSACTION_EVENT_CREATED;
+
+@Slf4j
 @Service
 public class AccountService {
 
@@ -31,6 +36,12 @@ public class AccountService {
     public Account createAccount(AccountDTO accountDTO) {
         Account account = accountMapper.dtoToAccount(accountDTO);
         customerRepository.findById(accountDTO.getCustomerId()).ifPresent(account::setCustomer);
+        account = accountRepository.save(account);
+        createTransaction(accountDTO, account);
+        return account;
+    }
+
+    private void createTransaction(AccountDTO accountDTO, Account account) {
         if (accountDTO.getInitialCredit().compareTo(BigDecimal.ZERO) > 0) {
             var transactionEvent = new TransactionEvent(
                     EventType.CREATE_TRANSACTION,
@@ -38,9 +49,8 @@ public class AccountService {
                     accountDTO.getInitialCredit(),
                     account.getId()
             );
-            streamBridge.send("startTransaction-out-0", transactionEvent);
+            streamBridge.send(TRANSACTION_BINDING_NAME, transactionEvent);
+            log.debug(TRANSACTION_EVENT_CREATED, transactionEvent);
         }
-        account = accountRepository.save(account);
-        return account;
     }
 }

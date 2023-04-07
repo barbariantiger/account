@@ -7,14 +7,17 @@ import lombok.Data;
 
 import java.util.List;
 
+import static nl.maikel.mu_bank.constants.AccountConstants.CUSTOMER;
+import static nl.maikel.mu_bank.constants.AccountConstants.CUSTOMER_TABLE;
+
 @Data
-@Entity(name = "CUSTOMER")
+@Entity(name = CUSTOMER_TABLE)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("customer")
+    @OneToMany(mappedBy = CUSTOMER, fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(CUSTOMER)
     private List<Account> accounts;
     @NotNull
     private String name;

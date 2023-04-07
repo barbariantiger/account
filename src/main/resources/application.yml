@@ -17,6 +17,14 @@ spring:
           startTransaction-out-0:
             producer:
               transacted: true
+          consumeTransaction-in-0:
+            consumer:
+              transacted: true
       bindings:
         startTransaction-out-0:
           destination: Transaction
+        consumeTransaction-in-0:
+          destination: Processed
+          group: Account
+    function:
+      definition: consumeTransaction

@@ -1,5 +1,6 @@
 services:
-  rabbit:
+  rabbitMQ:
+    container_name: rabbitMQ
     image: rabbitmq:3.11.13-management-alpine
     restart: always
     environment:
@@ -8,3 +9,18 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  account:
+    container_name: account-service
+    image: mmaasmai/account:v1.0.0
+    restart: always
+    depends_on:
+      - rabbitMQ
+    ports:
+      - 8080:8080
+  transaction:
+    container_name: transaction-service
+    image: mmaasmai/transaction:latest
+    depends_on:
+      - rabbitMQ
+    restart: always
+

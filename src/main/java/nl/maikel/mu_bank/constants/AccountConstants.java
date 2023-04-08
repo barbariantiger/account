@@ -26,13 +26,11 @@ public class AccountConstants {
     public static final String ACCOUNTS = "accounts";
     public static final String CUSTOMER = "customer";
     public static final String TRANSACTIONS = "transactions";
-    public static final String INITIAL_CREDIT = "initialCredit";
     public static final String BALANCE = "balance";
-    public static final String DEFAULT_BALANCE = "0.00";
-    public static final String CUSTOMER_ID = "customerId";
     public static final String CUSTOMER_DOT_ID = "customer.id";
+    public static final String CUSTOMER_ID = "customerId";
     public static final String TRANSACTION_ID_CAMEL_CASE = "transactionId";
     public static final String ID = "id";
     public static final String ACCOUNT_MUST_NOT_BE_NULL = "Account must not be null";
-    public static final String INVALID_EVENT_TYPE = "Invalid event type";
+    public static final String CUSTOMERS_ENPOINT = "/customers/{id}";
 }

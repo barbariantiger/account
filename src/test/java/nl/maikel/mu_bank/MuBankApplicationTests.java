@@ -38,7 +38,7 @@ class MuBankApplicationTests {
         mockMvc.perform(post
                         ("/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(new AccountDTO("8dd4b430-475f-4303-b01c-28aec517646e", BigDecimal.ZERO))))
+                        .content(asJsonString(new AccountDTO("8dd4b430-475f-4303-b01c-28aec517646e", null, BigDecimal.ZERO))))
                 .andDo(print())
                 .andExpect(status().isCreated());
     }
@@ -47,7 +47,7 @@ class MuBankApplicationTests {
     void givenIncorrectInputWhenCreateAccountThenBadRequest() throws Exception {
         mockMvc.perform(post("/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(new AccountDTO(null, null))))
+                        .content(asJsonString(new AccountDTO(null, null,null))))
                 .andExpect(jsonPath("$.httpStatusCode", is(400)))
                 .andExpect(jsonPath("$.httpStatus", is("Bad Request")))
                 .andExpect(jsonPath("$.message", is("Customer ID must not be null")))

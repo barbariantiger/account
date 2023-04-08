@@ -13,5 +13,6 @@ import static nl.maikel.mu_bank.constants.AccountConstants.CUSTOMER_ID_MUST_NOT_
 public class AccountDTO {
     @NotEmpty(message = CUSTOMER_ID_MUST_NOT_BE_NULL)
     private String customerId;
+    private String id;
     private BigDecimal initialCredit;
 }

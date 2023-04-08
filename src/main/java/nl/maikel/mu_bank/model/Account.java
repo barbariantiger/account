@@ -26,8 +26,7 @@ public class Account {
     @ToString.Exclude
     @JsonIgnoreProperties(ACCOUNTS)
     private Customer customer;
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = TRANSACTION_ID, nullable = false)
+    @OneToMany(mappedBy = ACCOUNT, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnoreProperties(ACCOUNT)
     private List<Transaction> transactions;

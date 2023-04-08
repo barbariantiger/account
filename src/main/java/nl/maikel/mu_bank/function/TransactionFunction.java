@@ -1,11 +1,13 @@
 package nl.maikel.mu_bank.function;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import nl.maikel.mu_bank.event.TransactionProcessedEvent;
 import nl.maikel.mu_bank.mapper.TransactionMapper;
 import nl.maikel.mu_bank.repository.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.function.Consumer;
 
@@ -25,10 +27,12 @@ public class TransactionFunction {
     }
 
     @Bean
+    @Transactional
     public Consumer<TransactionProcessedEvent> consumeTransaction() {
         return event -> {
             if (event.getType().equals(TRANSACTION_PROCESSED)) {
-                var account = accountRepository.findById(event.getAccountId()).orElseThrow();
+                var account = accountRepository.findById(event.getAccountId()).orElseThrow(EntityNotFoundException::new);
+                account.setBalance(event.getUpdatedBalance());
                 var transactions = account.getTransactions();
                 transactions.add(transactionMapper.transactProcEventToTransaction(event));
                 account.setTransactions(transactions);

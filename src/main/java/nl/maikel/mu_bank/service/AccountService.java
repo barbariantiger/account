@@ -33,12 +33,11 @@ public class AccountService {
         this.streamBridge = streamBridge;
     }
 
-    public Account createAccount(AccountDTO accountDTO) {
+    public void createAccount(AccountDTO accountDTO) {
         Account account = accountMapper.dtoToAccount(accountDTO);
         customerRepository.findById(accountDTO.getCustomerId()).ifPresent(account::setCustomer);
         account = accountRepository.save(account);
         createTransaction(accountDTO, account);
-        return account;
     }
 
     private void createTransaction(AccountDTO accountDTO, Account account) {

@@ -12,10 +12,12 @@ import static nl.maikel.mu_bank.constants.AccountConstants.*;
 public interface AccountMapper {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
-
     @Mappings(value = {
-            @Mapping(source = INITIAL_CREDIT, target = BALANCE, defaultValue = DEFAULT_BALANCE),
-            @Mapping(source = CUSTOMER_ID, target = CUSTOMER_DOT_ID)
+            @Mapping(target = ID, expression = "java(accountDTO.getId() != null && accountDTO.getId().isEmpty() ? null : accountDTO.getId())"),
+            @Mapping(target = BALANCE, ignore = true),
+            @Mapping(source = CUSTOMER_ID, target = CUSTOMER_DOT_ID),
+            @Mapping(target = CUSTOMER, ignore = true),
+            @Mapping(target = TRANSACTIONS, ignore = true)
     })
     Account dtoToAccount(AccountDTO accountDTO);
 }

@@ -24,6 +24,7 @@ public class AccountController {
 
     @PostMapping(value = ACCOUNTS_ENDPOINT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Account> createAccount(@RequestBody @Valid final AccountDTO accountDTO) {
-       return new ResponseEntity<>(accountService.createAccount(accountDTO), HttpStatus.CREATED);
+       accountService.createAccount(accountDTO);
+       return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

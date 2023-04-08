@@ -14,7 +14,8 @@ public interface TransactionMapper {
     TransactionMapper INSTANCE = Mappers.getMapper(TransactionMapper.class);
 
     @Mappings(value = {
-            @Mapping(source = TRANSACTION_ID_CAMEL_CASE, target = ID)
+            @Mapping(source = TRANSACTION_ID_CAMEL_CASE, target = ID),
+            @Mapping(target = ACCOUNT, ignore = true)
     })
     Transaction transactProcEventToTransaction(TransactionProcessedEvent event);
 }

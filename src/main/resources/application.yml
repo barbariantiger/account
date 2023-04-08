@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+  rabbitmq:
+    username: user
+    password: password
+  cloud:
+    stream:
+      rabbit:
+        bindings:
+          startTransaction-out-0:
+            producer:
+              transacted: true
+          consumeTransaction-in-0:
+            consumer:
+              transacted: true
+      bindings:
+        startTransaction-out-0:
+          destination: Transaction
+        consumeTransaction-in-0:
+          destination: Processed
+          group: Account
+    function:
+      definition: consumeTransaction
